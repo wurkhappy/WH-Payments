@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func CreatePaymentsByVersionID(params map[string]interface{}, body []byte, userID string) ([]byte, error, int) {
+func CreatePaymentsByVersionID(params map[string]interface{}, body []byte) ([]byte, error, int) {
 	versionID := params["id"].(string)
 	var payments []*models.Payment
 
@@ -36,7 +36,7 @@ func CreatePaymentsByVersionID(params map[string]interface{}, body []byte, userI
 
 }
 
-func GetPaymentsByVersionID(params map[string]interface{}, body []byte, userID string) ([]byte, error, int) {
+func GetPaymentsByVersionID(params map[string]interface{}, body []byte) ([]byte, error, int) {
 	id := params["id"].(string)
 	payments, err := models.FindPaymentsByVersionID(id)
 	if err != nil {
@@ -47,7 +47,7 @@ func GetPaymentsByVersionID(params map[string]interface{}, body []byte, userID s
 	return p, nil, http.StatusOK
 }
 
-func UpdatePayment(params map[string]interface{}, body []byte, userID string) ([]byte, error, int) {
+func UpdatePayment(params map[string]interface{}, body []byte) ([]byte, error, int) {
 	id := params["id"].(string)
 
 	var updatedPayment *models.Payment

@@ -118,3 +118,7 @@ func (p *Payment) UnmarshalJSON(bytes []byte) (err error) {
 	p.AmountPaid = py.AmountPaid
 	return nil
 }
+
+func (p *Payment) SetAsPaid() {
+	p.AmountPaid = p.AmountDue
+}

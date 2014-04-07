@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/streadway/amqp"
+	"github.com/wurkhappy/WH-Config"
 	"log"
 )
 
@@ -27,20 +28,20 @@ func (e *Event) PublishOnChannel(ch *amqp.Channel) {
 	}
 
 	ch.ExchangeDeclare(
-		"logs_topic", // name
-		"topic",      // type
-		true,         // durable
-		false,        // auto-deleted
-		false,        // internal
-		false,        // noWait
-		nil,          // arguments
+		config.MainExchange, // name
+		"topic",             // type
+		true,                // durable
+		false,               // auto-deleted
+		false,               // internal
+		false,               // noWait
+		nil,                 // arguments
 	)
 
 	ch.Publish(
-		"logs_topic", // exchange
-		e.Name,       // routing key
-		false,        // mandatory
-		false,        // immediate
+		config.MainExchange, // exchange
+		e.Name,              // routing key
+		false,               // mandatory
+		false,               // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        e.Body,
@@ -49,12 +50,13 @@ func (e *Event) PublishOnChannel(ch *amqp.Channel) {
 
 func getChannel() *amqp.Channel {
 	ch, err := connection.Channel()
-	if ch == nil {
+	if err != nil {
 		dialRMQ()
 		ch, err = connection.Channel()
+		if err != nil {
+			log.Println("rmq", err.Error())
+		}
 	}
-	if err != nil {
-		log.Println("rmq", err.Error())
-	}
+
 	return ch
 }
