@@ -7,6 +7,7 @@ import (
 )
 
 var SavePayment *sql.Stmt
+var UpsertPayment *sql.Stmt
 var UpdatePayment *sql.Stmt
 var FindPaymentsByVersionID *sql.Stmt
 var FindPaymentByID *sql.Stmt
@@ -14,6 +15,11 @@ var FindPaymentByID *sql.Stmt
 func CreateStatements() {
 	var err error
 	SavePayment, err = DB.Prepare("INSERT INTO payment(id, data) VALUES($1, $2)")
+	if err != nil {
+		panic(err)
+	}
+
+	UpsertPayment, err = DB.Prepare("SELECT upsert_payment($1, $2)")
 	if err != nil {
 		panic(err)
 	}

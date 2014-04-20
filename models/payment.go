@@ -52,6 +52,17 @@ func (p *Payment) Save() (err error) {
 	return nil
 }
 
+func (p *Payment) Upsert() (err error) {
+	jsonByte, _ := json.Marshal(p)
+	r, err := DB.UpsertPayment.Query(p.ID, string(jsonByte))
+	r.Close()
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+	return nil
+}
+
 func (p *Payment) Update() (err error) {
 	jsonByte, _ := json.Marshal(p)
 	_, err = DB.UpdatePayment.Exec(p.ID, string(jsonByte))

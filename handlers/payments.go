@@ -21,7 +21,7 @@ func CreatePaymentsByVersionID(params map[string]interface{}, body []byte) ([]by
 		//TODO: this should really be a transaction
 		//because if one save goes bad and others have already been saved then it could
 		//lead to weird zombie payments
-		err = payment.Save()
+		err = payment.Upsert()
 		if err != nil {
 			return nil, fmt.Errorf("%s %s", "Error saving: ", err.Error()), http.StatusBadRequest
 		}
