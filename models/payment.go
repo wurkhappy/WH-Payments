@@ -20,6 +20,7 @@ type Payment struct {
 	IsDeposit    bool         `json:"isDeposit"`
 	AmountDue    float64      `json:"amountDue"`
 	AmountPaid   float64      `json:"amountPaid"`
+	Number       int64        `json:"number"`
 }
 
 //for unmarshaling purposes
@@ -33,6 +34,7 @@ type payment struct {
 	IsDeposit    bool         `json:"isDeposit"`
 	AmountDue    float64      `json:"amountDue"`
 	AmountPaid   float64      `json:"amountPaid"`
+	Number       int64        `json:"number"`
 }
 
 func NewPayment() *Payment {
@@ -127,6 +129,7 @@ func (p *Payment) UnmarshalJSON(bytes []byte) (err error) {
 	p.IsDeposit = py.IsDeposit
 	p.AmountDue = py.AmountDue
 	p.AmountPaid = py.AmountPaid
+	p.Number = py.Number
 	return nil
 }
 
