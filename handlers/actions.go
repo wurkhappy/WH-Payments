@@ -49,6 +49,7 @@ func createAndSendEvents(body []byte, payment *models.Payment) {
 		"userID":         payment.LastAction.UserID,
 		"amount":         payment.AmountDue,
 		"date":           payment.LastAction.Date,
+		"paymentItems":   payment.PaymentItems,
 	}
 	j, _ := json.Marshal(data)
 	events := Events{&Event{"payment." + payment.LastAction.Name, j}}
