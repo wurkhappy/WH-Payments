@@ -24,12 +24,10 @@ func UpdateAction(params map[string]interface{}, body []byte) ([]byte, error, in
 	payment.LastAction = action
 
 	if action.Name == models.ActionAccepted {
-		fmt.Println("paid")
 		payment.SetAsPaid()
 	}
 
 	payment.Update()
-	fmt.Println(payment)
 
 	go createAndSendEvents(body, payment)
 
